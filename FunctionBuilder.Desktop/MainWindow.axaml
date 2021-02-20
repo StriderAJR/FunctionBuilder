@@ -4,26 +4,26 @@
         Title="AvaloniaApplication2"
         Design.Width="450"
         Design.Height="500">
-    <StackPanel HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
-                Margin="20">
-      <TextBlock Background="Red">Test</TextBlock>
-      <DockPanel DockPanel.Dock="Left" 
-                 Background="Gray" 
-                 HorizontalAlignment="Stretch">
-        <Label>Введите свое выражение:</Label>
-        <TextBox Name="tbExpression" 
-                 HorizontalAlignment="Stretch" 
-                 Background="Azure">(1/3+0.5)+2*(4-1/2)</TextBox>
-      </DockPanel>
-      <Button Name="btnCalculate" 
-              HorizontalAlignment="Left" 
-              Click="btnCalculate_Click">Вычислить</Button>
-      <StackPanel Name="spResult" 
-                  Orientation="Horizontal" 
-                  IsVisible="false">
-        <Label>Результат: </Label>
-        <TextBlock Name="tbResult"></TextBlock>
-      </StackPanel>
+  <StackPanel HorizontalAlignment="Stretch"
+              VerticalAlignment="Top"
+              Margin="20">
+    <TextBlock Background="Red">Заголовок</TextBlock>
+    <DockPanel DockPanel.Dock="Left"
+               Background="Gray"
+               HorizontalAlignment="Stretch">
+      <Label>Введите свое выражение:</Label>
+      <TextBox Name="tbExpression"
+               HorizontalAlignment="Stretch"
+               Background="Azure">(1/3+0.5)+2*(4-1/2)</TextBox>
+    </DockPanel>
+    <Button Name="btnCalculate"
+            HorizontalAlignment="Left"
+            Click="btnCalculate_Click">Вычислить</Button>
+    <StackPanel Name="spResult"
+                Orientation="Horizontal"
+                IsVisible="false">
+      <Label>Результат: </Label>
+      <TextBlock Name="tbResult"></TextBlock>
     </StackPanel>
+  </StackPanel>
 </Window>

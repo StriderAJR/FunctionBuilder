@@ -32,6 +32,26 @@ namespace FunctionBuilder.Logic
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is string)
+            {
+                return ((string)obj) == Name;
+            }
+
+            return obj.GetType() == this.GetType();
+        }
+
+        public static bool operator ==(Operation p1, object p2)
+        {
+            return p1.Equals(p2);
+        }
+
+        public static bool operator !=(Operation p1, object p2)
+        {
+            return !p1.Equals(p2);
+        }
     }
 
     public class Plus : Operation
@@ -103,6 +123,11 @@ namespace FunctionBuilder.Logic
                 throw new ArgumentException("Неверное количество аргументов.");
 
             return @params[0] / @params[1];
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Devide;
         }
     }
 
