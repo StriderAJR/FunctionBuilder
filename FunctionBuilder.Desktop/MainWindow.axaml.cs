@@ -93,7 +93,7 @@ namespace FunctionBuilder.Desktop
             tbResult.Text = function.Calculate().ToString();
         }
 
-        private void Canvas_KeyDown(object sender, KeyEventArgs e)
+        private void Canvas_KeyDown(object sender, PointerPressedEventArgs e)
         {
             var mb = MessageBoxManager
                     .GetMessageBoxStandardWindow("title", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed...");

@@ -42,7 +42,7 @@
             Grid.Row="1" Grid.Column="0">
       <DockPanel Name="dpCanvas" VerticalAlignment="Stretch">
         <Border Name="borderCanvas">
-          <Canvas Name="canvas"></Canvas>
+          <Canvas Name="canvas" PointerPressed="Canvas_KeyDown"></Canvas>
         </Border>
       </DockPanel>
     </Border>

@@ -11,46 +11,44 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-    <DockPanel HorizontalAlignment="Stretch"
+        <DockPanel HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="20"
                Grid.Row="0" Grid.Column="0">
-      <StackPanel>
-        <TextBlock Background="Red">Заголовок</TextBlock>
-        <DockPanel DockPanel.Dock="Left"
+            <StackPanel>
+                <TextBlock Background="Red">Заголовок</TextBlock>
+                <DockPanel DockPanel.Dock="Left"
                    Background="Gray"
                    HorizontalAlignment="Stretch">
-          <Label>Введите свое выражение:</Label>
-          <TextBox Name="tbExpression"
+                    <Label>Введите свое выражение:</Label>
+                    <TextBox Name="tbExpression"
                    HorizontalAlignment="Stretch"
                    Background="Azure">(1/3+0.5)+2*(4-1/2)</TextBox>
-        </DockPanel>
-        <Button Name="btnCalculate"
+                </DockPanel>
+                <Button Name="btnCalculate"
                 HorizontalAlignment="Left"
                 Click="btnCalculate_Click">Вычислить</Button>
-        <StackPanel Name="spRPN"
+                <StackPanel Name="spRPN"
                     Orientation="Horizontal"
                     Visibility="Collapsed">
-          <Label>ОПЗ: </Label>
-          <TextBlock Name="tbRPN"></TextBlock>
-        </StackPanel>
-        <StackPanel Name="spResult"
+                    <Label>ОПЗ:</Label>
+                    <TextBlock Name="tbRPN"></TextBlock>
+                </StackPanel>
+                <StackPanel Name="spResult"
                     Orientation="Horizontal"
                     Visibility="Collapsed">
-          <Label>Результат: </Label>
-          <TextBlock Name="tbResult"></TextBlock>
-        </StackPanel>
-      </StackPanel>
-    </DockPanel>
-    <Border BorderBrush="Black"
+                    <Label>Результат:</Label>
+                    <TextBlock Name="tbResult"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+        <Border BorderBrush="Black"
             BorderThickness="1"
             Margin="5"
             Grid.Row="1" Grid.Column="0">
-      <DockPanel Name="dpCanvas" VerticalAlignment="Stretch">
-        <Border Name="borderCanvas">
-          <Canvas Name="canvas" SizeChanged="canvas_SizeChanged"></Canvas>
+            <DockPanel Name="dpCanvas" VerticalAlignment="Stretch">
+                <Canvas Name="canvas" SizeChanged="canvas_SizeChanged"></Canvas>
+            </DockPanel>
         </Border>
-      </DockPanel>
-    </Border>
-  </Grid>
+    </Grid>
 </Window>

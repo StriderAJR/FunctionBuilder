@@ -55,10 +55,25 @@ namespace FunctionBuilder.WPF
             xAxis.Y1 = height / 2;
             xAxis.X2 = width;
             xAxis.Y2 = height / 2;
-            xAxis.Stroke = Brushes.Black;
-            xAxis.StrokeThickness = 1;
+            xAxis.Stroke = Brushes.Red;
+            xAxis.StrokeThickness = 2;
+
+            var arrow1 = new Polygon();
+            arrow1.Points.Add(new Point(height / 2, width));
+            arrow1.Points.Add(new Point(height / 2 - 10, width - 15));
+            arrow1.Points.Add(new Point(height / 2 + 10, width - 15));
+            arrow1.Fill = Brushes.Black;
+
+            arrow1.MouseUp += arrow1_MouseUp;
 
             canvas.Children.Add(xAxis);
+            canvas.Children.Add(arrow1);
+        }
+
+        private void arrow1_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var testWindow = new TestWindow();
+            testWindow.Show();
         }
     }
 }
