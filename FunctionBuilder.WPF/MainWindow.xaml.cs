@@ -16,6 +16,12 @@ using System.Windows.Shapes;
 
 namespace FunctionBuilder.WPF
 {
+    public class FunctionValue
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -29,13 +35,26 @@ namespace FunctionBuilder.WPF
         private void btnCalculate_Click(object sender, RoutedEventArgs e)
         {
             var expression = tbExpression.Text;
-            var function = new Function(expression);
+            var rangeStart = string.IsNullOrEmpty(tbRangeStart.Text) ? double.NaN : double.Parse(tbRangeStart.Text);
+            var rangeEnd = string.IsNullOrEmpty(tbRangeEnd.Text) ? double.NaN : double.Parse(tbRangeEnd.Text);
+            var delta = string.IsNullOrEmpty(tbDelta.Text) ? double.NaN : double.Parse(tbDelta.Text);
 
-            spResult.Visibility = Visibility.Visible;
+            var function = new Function(expression, rangeStart, rangeEnd, delta);
+            var functionValues = function.CalculateFunctionValues();
+
             spRPN.Visibility = Visibility.Visible;
-
             tbRPN.Text = function.ToString();
-            tbResult.Text = function.Calculate().ToString();
+
+            if (functionValues.Count == 1)
+            {
+                spResult.Visibility = Visibility.Visible;
+                tbResult.Text = function.CalculateFunctionValues().First().Value.ToString();
+            }
+            else
+            {
+                gFunctionValues.Visibility = Visibility.Visible;
+                gFunctionValues.ItemsSource = functionValues.Select(x => new FunctionValue { X = x.Key, Y = x.Value }).ToList();
+            }
         }
 
         private void canvas_SizeChanged(object sender, SizeChangedEventArgs e)

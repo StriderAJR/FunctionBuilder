@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FunctionBuilder.Logic
@@ -9,12 +10,48 @@ namespace FunctionBuilder.Logic
         ReversePolishNotation rpn = new ReversePolishNotation();
         private object[] reversePolishNotation;
 
-        public Function(string expression)
+        private bool hasArgument;
+        private double rangeStart, rangeEnd, delta;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="rangeStart">Начальное значение аргумента для вычисления функции</param>
+        /// <param name="rangeEnd">Конечное значение аргумента для вычисления функции</param>
+        /// <param name="delta">Шаг изменения аргумента</param>
+        public Function(string expression, double rangeStart = double.NaN, double rangeEnd = double.NaN, double delta = double.NaN)
         {
+            this.rangeStart = rangeStart;
+            this.rangeEnd = rangeEnd;
+            this.delta = delta;
+
             reversePolishNotation = rpn.Parse(expression);
+
+            hasArgument = reversePolishNotation.Any(x => x is Argument);
         }
 
-        public double Calculate()
+        public Dictionary<double, double> CalculateFunctionValues()
+        {
+            if (hasArgument && (double.IsNaN(rangeStart) || double.IsNaN(rangeEnd) || double.IsNaN(delta)))
+            {
+                throw new Exception("В выражении задан аргумент, но не заданы значения для его подстановки.");
+            }
+
+            Dictionary<double, double> result = new Dictionary<double, double>();
+
+            double argumentValue = rangeStart;
+            do
+            {
+                result.Add(argumentValue, Calculate(argumentValue));
+                argumentValue += delta;
+            }
+            while (hasArgument && (rangeEnd - argumentValue) > 0);
+
+            return result;
+        }
+
+        private double Calculate(double argumentValue = double.NaN)
         {
             if (reversePolishNotation == null || reversePolishNotation.Length == 0)
             {
@@ -22,30 +59,35 @@ namespace FunctionBuilder.Logic
             }
 
             Stack<double> numbers = new Stack<double>(); // можно и без стека, а бегать назад по массиву, но так мне нравится больше
-            // пробегаем по всем токенам в ОПЗ
+                                                         // пробегаем по всем токенам в ОПЗ
             foreach (var token in reversePolishNotation)
             {
-                if (token is double) 
+                if (token is double)
                 {
                     // если число - сохраняем в стек для дальнейшего использования
                     numbers.Push((double)token);
                 }
-                else 
+                else if (token is Argument)
+                {
+                    numbers.Push(argumentValue);
+                }
+                else
                 {
                     // если операция...
-                    var operation = (Operation) token;
+                    var operation = (Operation)token;
                     var args = new double[operation.OperandCount];
                     // извлекаем из стека чисел столько раз, сколько аргументов у данной операции
                     // причем помним, что числа в стеке лежат в обратном порядке - их нужно развернуть
-                    for(int i = operation.OperandCount; i > 0; i--)
+                    for (int i = operation.OperandCount; i > 0; i--)
                     {
-                        args[i-1] = numbers.Pop(); 
+                        args[i - 1] = numbers.Pop();
                     }
                     var subResult = operation.Evaluate(args);
                     // кладем результат обратно в стек чисел
                     numbers.Push(subResult);
                 }
             }
+
             // т.к. мы уверены, что наша ОПЗ корректна, то в принципе, когда дошли до конца записи,
             // последнее число в стеке - наш итоговый результат
 
@@ -61,7 +103,7 @@ namespace FunctionBuilder.Logic
                 sb.Append(" ");
             }
 
-            sb.Remove(sb.Length-1, 1);
+            sb.Remove(sb.Length - 1, 1);
             return sb.ToString();
         }
     }

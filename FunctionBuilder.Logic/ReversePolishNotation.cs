@@ -41,8 +41,8 @@ namespace FunctionBuilder.Logic
                 }
                 else
                 {
-                    i = ReadOperation(expressionString, i, out Operation op);
-                    expression.Add(op);
+                    i = ReadOperationOrArgument(expressionString, i, out object token);
+                    expression.Add(token);
                 }
             }
 
@@ -65,10 +65,16 @@ namespace FunctionBuilder.Logic
             return i;
         }
 
-        private int ReadOperation(string expression, int i, out Operation op)
+        private int ReadOperationOrArgument(string expression, int i, out object token)
         {
+            bool isAlphabetic = char.IsLetter(expression[i]);
+
             StringBuilder sb = new StringBuilder();
-            while (i < expression.Length && !char.IsDigit(expression[i]) && expression[i] != '(' && expression[i] != ')')
+            while (i < expression.Length                                    // не дойдем до конца строки,...
+                && !char.IsDigit(expression[i])                             // не встретим цифру...
+                && expression[i] != '(' && expression[i] != ')'             // или скобку...
+                && ((isAlphabetic && char.IsLetter(expression[i]))          // или буквенная операция не прервется символом...
+                    || (!isAlphabetic && !char.IsLetter(expression[i]))))   // или наоборот
             {
                 sb.Append(expression[i++]);
             }
@@ -76,11 +82,12 @@ namespace FunctionBuilder.Logic
             string opString = sb.ToString();
             switch (opString)
             {
-                case "+": op = new Plus(); break;
-                case "-": op = new Minus(); break;
-                case "*": op = new Multiply(); break;
-                case "/": op = new Devide(); break;
-                case "log": op = new Log(); break;
+                case "+": token = new Plus(); break;
+                case "-": token = new Minus(); break;
+                case "*": token = new Multiply(); break;
+                case "/": token = new Devide(); break;
+                case "log": token = new Log(); break;
+                case "x": token = new Argument(); break;
                 default: throw new Exception("Неизвестная операция");
             }
 
@@ -107,6 +114,10 @@ namespace FunctionBuilder.Logic
                     }
 
                     operations.Push(op);
+                }
+                else if (token is Argument arg)
+                {
+                    operands.Push(arg);
                 }
                 else if (token is Parenthessis parenthessis)
                 {

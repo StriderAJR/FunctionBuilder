@@ -20,10 +20,20 @@
                 <DockPanel DockPanel.Dock="Left"
                    Background="Gray"
                    HorizontalAlignment="Stretch">
-                    <Label>Введите свое выражение:</Label>
+                    <Label>f(x) =</Label>
                     <TextBox Name="tbExpression"
                    HorizontalAlignment="Stretch"
-                   Background="Azure">(1/3+0.5)+2*(4-1/2)</TextBox>
+                   Background="Azure">1+2*x</TextBox>
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Left">
+                    <UniformGrid Grid.Row="0" Columns="6">
+                        <Label MaxWidth="50">x.min =</Label>
+                        <TextBox Name="tbRangeStart">0</TextBox>
+                        <Label Width="50">x.max =</Label>
+                        <TextBox Name="tbRangeEnd">4</TextBox>
+                        <Label Width="50">x.step =</Label>
+                        <TextBox Name="tbDelta">1</TextBox>
+                    </UniformGrid>
                 </DockPanel>
                 <Button Name="btnCalculate"
                 HorizontalAlignment="Left"
@@ -42,13 +52,21 @@
                 </StackPanel>
             </StackPanel>
         </DockPanel>
-        <Border BorderBrush="Black"
+        <DockPanel Grid.Row="1" Grid.Column="0">
+            <DataGrid 
+                Name="gFunctionValues"
+                Visibility="Collapsed"
+                AutoGenerateColumns="True" 
+                ItemsSource="{DynamicResource ResourceKey=phones}">
+
+            </DataGrid>
+            <Border BorderBrush="Black"
             BorderThickness="1"
-            Margin="5"
-            Grid.Row="1" Grid.Column="0">
-            <DockPanel Name="dpCanvas" VerticalAlignment="Stretch">
-                <Canvas Name="canvas" SizeChanged="canvas_SizeChanged"></Canvas>
-            </DockPanel>
-        </Border>
+            Margin="5">
+                <DockPanel Name="dpCanvas" VerticalAlignment="Stretch">
+                    <Canvas Name="canvas" SizeChanged="canvas_SizeChanged"></Canvas>
+                </DockPanel>
+            </Border>
+        </DockPanel>
     </Grid>
 </Window>
