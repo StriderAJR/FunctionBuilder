@@ -1,17 +1,9 @@
-﻿using FunctionBuilder.Logic;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using FunctionBuilder.Logic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace FunctionBuilder.WPF
@@ -34,13 +26,13 @@ namespace FunctionBuilder.WPF
 
         private void btnCalculate_Click(object sender, RoutedEventArgs e)
         {
-            var expression = tbExpression.Text;
-            var rangeStart = string.IsNullOrEmpty(tbRangeStart.Text) ? double.NaN : double.Parse(tbRangeStart.Text);
-            var rangeEnd = string.IsNullOrEmpty(tbRangeEnd.Text) ? double.NaN : double.Parse(tbRangeEnd.Text);
-            var delta = string.IsNullOrEmpty(tbDelta.Text) ? double.NaN : double.Parse(tbDelta.Text);
+            string expression = tbExpression.Text;
+            double rangeStart = string.IsNullOrEmpty(tbRangeStart.Text) ? double.NaN : double.Parse(tbRangeStart.Text);
+            double rangeEnd = string.IsNullOrEmpty(tbRangeEnd.Text) ? double.NaN : double.Parse(tbRangeEnd.Text);
+            double delta = string.IsNullOrEmpty(tbDelta.Text) ? double.NaN : double.Parse(tbDelta.Text);
 
-            var function = new Function(expression, rangeStart, rangeEnd, delta);
-            var functionValues = function.CalculateFunctionValues();
+            Function function = new Function(expression, rangeStart, rangeEnd, delta);
+            Dictionary<double, double> functionValues = function.CalculateFunctionValues();
 
             spRPN.Visibility = Visibility.Visible;
             tbRPN.Text = function.ToString();
@@ -66,9 +58,9 @@ namespace FunctionBuilder.WPF
         {
             canvas.Children.Clear();
 
-            var xAxis = new Line();
-            var height = canvas.ActualHeight;
-            var width = canvas.ActualWidth;
+            Line xAxis = new Line();
+            double height = canvas.ActualHeight;
+            double width = canvas.ActualWidth;
 
             xAxis.X1 = 0;
             xAxis.Y1 = height / 2;
@@ -77,7 +69,7 @@ namespace FunctionBuilder.WPF
             xAxis.Stroke = Brushes.Red;
             xAxis.StrokeThickness = 2;
 
-            var arrow1 = new Polygon();
+            Polygon arrow1 = new Polygon();
             arrow1.Points.Add(new Point(height / 2, width));
             arrow1.Points.Add(new Point(height / 2 - 10, width - 15));
             arrow1.Points.Add(new Point(height / 2 + 10, width - 15));
@@ -91,7 +83,7 @@ namespace FunctionBuilder.WPF
 
         private void arrow1_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            var testWindow = new TestWindow();
+            TestWindow testWindow = new TestWindow();
             testWindow.Show();
         }
     }
