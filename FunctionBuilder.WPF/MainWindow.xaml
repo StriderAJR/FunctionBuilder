@@ -58,15 +58,8 @@
                 Visibility="Collapsed"
                 AutoGenerateColumns="True" 
                 ItemsSource="{DynamicResource ResourceKey=phones}">
-
             </DataGrid>
-            <Border BorderBrush="Black"
-            BorderThickness="1"
-            Margin="5">
-                <DockPanel Name="dpCanvas" VerticalAlignment="Stretch">
-                    <Canvas Name="canvas" SizeChanged="canvas_SizeChanged"></Canvas>
-                </DockPanel>
-            </Border>
+            <local:PlotControl></local:PlotControl>
         </DockPanel>
     </Grid>
 </Window>
